@@ -980,10 +980,10 @@ async def queue(ctx, action, role=None):
             await channel.send(f"`{action}` is not a recognized command.")
 
     elif not ((nail_member in ctx.author.roles) or (nail_trial in ctx.author.roles)):
-        await channel.send("You currently do not have a NAIL role. Talk to an administrator to receive the NAIL Trial Member role.")
+        await channel.send("You currently do not have a Member role. Go the the `#roles` channel to receive the role.")
 
     elif ctx.author.id in banned_players:
-        await channel.send("You are currently banned from NAIL.")
+        await channel.send("You are currently banned from queueing.")
 
     else:
         await channel.send("You have not yet registered. Please register using the `!register` command in misc-command channel.")
@@ -1447,9 +1447,9 @@ async def bans(ctx):
 
     channel = await ctx.author.create_dm()
     if len(banned_champs) == 0:
-        await channel.send("There currently are no champions banned from NAIL.")
+        await channel.send("There currently are no champions banned.")
     else:
-        await channel.send(f"The current champions banned from NAIL are: `{banned_champs[0]}`, `{banned_champs[1]}`, and `{banned_champs[2]}`")
+        await channel.send(f"The current champions banned are: `{banned_champs[0]}`, `{banned_champs[1]}`, and `{banned_champs[2]}`")
 
 @client.command(aliases=['swr'])
 async def showwinrates(ctx):
@@ -1580,7 +1580,7 @@ async def complain(ctx, target, *, arg):
     target_player = client.get_guild(SERVER_ID).get_member_named(target)
     if target_player.id not in user_dictionary:
         channel = await ctx.author.create_dm()
-        await channel.send(f"`{target}` is not a registered NAIL user. Make sure you have typed their discord name correctly. ex. `!complain Name#1234 explanation`")
+        await channel.send(f"`{target}` is not a registered user. Make sure you have typed their discord name correctly. ex. `!complain Name#1234 explanation`")
     else:
         if ctx.author.id not in complaint_pickle_info.keys():
             complaint_pickle_info[ctx.author.id] = []
