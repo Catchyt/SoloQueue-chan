@@ -48,21 +48,21 @@ MAP_POOL = ['Mount Araz - Night', 'Blackstone Arena - Day', 'Dragon Garden - Nig
             'Meriko Summit - Night', 'Mount Araz - Day', 'Daharin Battlegrounds - Day', 'Daharin Battlegrounds - Night',
             'Mount Araz - Night', 'Blackstone Arena - Day', 'Dragon Garden - Night', 'Meriko Summit - Night']
 
-SERVER_ID = 749432928555237386
-QUEUE_CHANNEL_ID = 749433722859815054
-MATCH_CHANNEL_ID = 749433755583774770
-DRAFT_CHANNEL_ID = 749433787292581989
-MISC_COMMANDS_ID = 749434062204305468
+SERVER_ID = 807013434775306280
+QUEUE_CHANNEL_ID = 807013435099447324
+MATCH_CHANNEL_ID = 807013435099447325
+DRAFT_CHANNEL_ID = 807013435312832552
+MISC_COMMANDS_ID = 807013435312832553
 
-NAIL_CONTROL_ID = 749442108221292645
-NAIL_MEMBER_ID = 749441918697734164
-NAIL_TRIAL_ID = 749442266891813013
-DRAFT_BOT_ID = 753457206040461352
+NAIL_CONTROL_ID = 807013434784481294
+NAIL_MEMBER_ID = 807013434784481285
+NAIL_TRIAL_ID = 807013434784481286
+DRAFT_BOT_ID = 807012482291466251
 
-DRAFT_FORMAT = "bppbp"
+DRAFT_FORMAT = "bpbp"
 BOT_CHANNELS = [QUEUE_CHANNEL_ID, MATCH_CHANNEL_ID, MISC_COMMANDS_ID]
 purge_voters = []
-REQUIRED_VOTERS = 3
+REQUIRED_VOTERS = 2
 queue_table_data = [['', '', '', '', '', ''], ['', '', '', '', '', ''], ['', '', '', '', '', '']]
 queue_table_message = 0
 rankings = []
@@ -111,55 +111,55 @@ class User:
         self.dropped = False
 
 
-class Match:
-    def __init__(self):
-        global queue_channel
-        global purge_voters
-        global match_counter
-        global user_dictionary
-        self.first_pick = random.randint(1, 2)
-        self.players = {}
-        self.support_counter = 0
-        for player in queue_channel:
-            if len(self.players) < 6:
-                if player[1] == 'Fill' or player[1] == 'DPS':
-                    self.players[player[0]] = player[1]
-                elif self.support_counter < 2:
-                    self.players[player[0]] = player[1]
-                    self.support_counter += 1
-        for player in self.players:
-            if player in [item[0] for item in queue_channel]:
-                del queue_channel[[item[0] for item in queue_channel].index(player)]
-        self.draft_pool = list(self.players.keys())
-        self.team1 = []
-        self.team2 = []
-        self.match_id = match_counter
-        self.team1_win_votes = 0
-        self.team2_win_votes = 0
-        self.drop_votes = 0
-        self.map = MAP_POOL[random.randint(0, len(MAP_POOL)-1)]
-        self.closed = False
-        purge_voters.clear()
-        max = user_dictionary[self.draft_pool[0].id].display_rating
-        self.captain1 = self.draft_pool[0]
-        for player in self.draft_pool:  # finds highest and second highest rated players, makes them captain1 and captain2, and removes them from pool
-            user_dictionary[player.id].in_match = True  # sets inmatch to true for each player in the game
-            user_dictionary[player.id].last_match_id = self.match_id
-            if user_dictionary[player.id].display_rating > max:
-                self.captain1 = player
-                max = user_dictionary[player.id].display_rating
-        self.team1.append(self.captain1)
-        user_dictionary[self.captain1.id].is_captain1 = True
-        self.draft_pool.remove(self.captain1)
-        max = user_dictionary[self.draft_pool[0].id].display_rating
-        self.captain2 = self.draft_pool[0]
-        for player in self.draft_pool:
-            if user_dictionary[player.id].display_rating > max:
-                self.captain2 = player
-                max = user_dictionary[player.id].display_rating
-        self.team2.append(self.captain2)
-        user_dictionary[self.captain2.id].is_captain2 = True
-        self.draft_pool.remove(self.captain2)
+# class Match:
+#     def __init__(self):
+#         global queue_channel
+#         global purge_voters
+#         global match_counter
+#         global user_dictionary
+#         self.first_pick = random.randint(1, 2)
+#         self.players = {}
+#         self.support_counter = 0
+#         for player in queue_channel:
+#             if len(self.players) < 4:
+#                 if player[1] == 'Fill' or player[1] == 'DPS':
+#                     self.players[player[0]] = player[1]
+#                 elif self.support_counter < 2:
+#                     self.players[player[0]] = player[1]
+#                     self.support_counter += 1
+#         for player in self.players:
+#             if player in [item[0] for item in queue_channel]:
+#                 del queue_channel[[item[0] for item in queue_channel].index(player)]
+#         self.draft_pool = list(self.players.keys())
+#         self.team1 = []
+#         self.team2 = []
+#         self.match_id = match_counter
+#         self.team1_win_votes = 0
+#         self.team2_win_votes = 0
+#         self.drop_votes = 0
+#         self.map = MAP_POOL[random.randint(0, len(MAP_POOL)-1)]
+#         self.closed = False
+#         purge_voters.clear()
+#         max = user_dictionary[self.draft_pool[0].id].display_rating
+#         self.captain1 = self.draft_pool[0]
+#         for player in self.draft_pool:  # finds highest and second highest rated players, makes them captain1 and captain2, and removes them from pool
+#             user_dictionary[player.id].in_match = True  # sets inmatch to true for each player in the game
+#             user_dictionary[player.id].last_match_id = self.match_id
+#             if user_dictionary[player.id].display_rating > max:
+#                 self.captain1 = player
+#                 max = user_dictionary[player.id].display_rating
+#         self.team1.append(self.captain1)
+#         user_dictionary[self.captain1.id].is_captain1 = True
+#         self.draft_pool.remove(self.captain1)
+#         max = user_dictionary[self.draft_pool[0].id].display_rating
+#         self.captain2 = self.draft_pool[0]
+#         for player in self.draft_pool:
+#             if user_dictionary[player.id].display_rating > max:
+#                 self.captain2 = player
+#                 max = user_dictionary[player.id].display_rating
+#         self.team2.append(self.captain2)
+#         user_dictionary[self.captain2.id].is_captain2 = True
+#         self.draft_pool.remove(self.captain2)
 
 
 class RatedMatch:
@@ -171,7 +171,7 @@ class RatedMatch:
         self.players = {}
         self.support_counter = 0
         for player in queue_channel:
-            if len(self.players) < 6:
+            if len(self.players) <4:
                 if player[1] == 'Fill' or player[1] == 'DPS':
                     self.players[player[0]] = player[1]
                 elif self.support_counter < 2:
@@ -196,119 +196,105 @@ class RatedMatch:
         elo_diff = [999, 999, 999, 999, 999, 999, 999, 999, 999, 999]
 
         elo_diff[0] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
-                           + user_dictionary[self.draft_pool[2].id].points) -
-                          (user_dictionary[self.draft_pool[3].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[5].id].points))
+                           ) -
+                          (user_dictionary[self.draft_pool[2].id].points + user_dictionary[self.draft_pool[3].id].points
+                           ))
 
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' and self.players[
-            self.draft_pool[2]] == 'DPS')
-                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and
-                    self.players[self.draft_pool[5]] == 'DPS')):
+        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS')
+                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS')):
             elo_diff[0] = 999
 
-        elo_diff[1] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
-                           + user_dictionary[self.draft_pool[3].id].points) -
-                          (user_dictionary[self.draft_pool[2].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[5].id].points))
+        elo_diff[1] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[2].id].points
+                           ) -
+                          (user_dictionary[self.draft_pool[1].id].points + user_dictionary[self.draft_pool[3].id].points
+                           ))
 
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' and self.players[
-            self.draft_pool[3]] == 'DPS')
-                or (self.players[self.draft_pool[2]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and
-                    self.players[self.draft_pool[5]] == 'DPS')):
+        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' )
+                or (self.players[self.draft_pool[2]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' )):
             elo_diff[1] = 999
 
-        elo_diff[2] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
-                           + user_dictionary[self.draft_pool[4].id].points) -
-                          (user_dictionary[self.draft_pool[3].id].points + user_dictionary[self.draft_pool[2].id].points
-                           + user_dictionary[self.draft_pool[5].id].points))
+        elo_diff[2] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[3].id].points
+                           ) -
+                          (user_dictionary[self.draft_pool[1].id].points + user_dictionary[self.draft_pool[2].id].points
+                           ))
 
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' and self.players[
-            self.draft_pool[4]] == 'DPS')
-                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[2]] == 'DPS' and
-                    self.players[self.draft_pool[5]] == 'DPS')):
+        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' )
+                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[2]] == 'DPS' )):
             elo_diff[2] = 999
 
-        elo_diff[3] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
-                           + user_dictionary[self.draft_pool[5].id].points) -
-                          (user_dictionary[self.draft_pool[3].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[2].id].points))
+        # elo_diff[3] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
+        #                    ) -
+        #                   (user_dictionary[self.draft_pool[2].id].points + user_dictionary[self.draft_pool[3].id].points
+        #                   ))
+        #
+        # if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' )
+        #         or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' )):
+        #     elo_diff[3] = 999
 
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' and self.players[
-            self.draft_pool[5]] == 'DPS')
-                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and
-                    self.players[self.draft_pool[2]] == 'DPS')):
-            elo_diff[3] = 999
+        # elo_diff[4] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
+        #                    ) -
+        #                   (user_dictionary[self.draft_pool[2].id].points + user_dictionary[self.draft_pool[3].id].points
+        #                   ))
+        #
+        # if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[3]] == 'DPS' )
+        #         or (self.players[self.draft_pool[1]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS')):
+        #     elo_diff[4] = 999
 
-        elo_diff[4] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[3].id].points
-                           + user_dictionary[self.draft_pool[2].id].points) -
-                          (user_dictionary[self.draft_pool[1].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[5].id].points))
+        # elo_diff[5] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
+        #                    ) -
+        #                   (user_dictionary[self.draft_pool[2].id].points + user_dictionary[self.draft_pool[3].id].points
+        #                   ))
+        #
+        # if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' )
+        #         or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' )):
+        #     elo_diff[5] = 999
 
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[3]] == 'DPS' and self.players[
-            self.draft_pool[2]] == 'DPS')
-                or (self.players[self.draft_pool[1]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and
-                    self.players[self.draft_pool[5]] == 'DPS')):
-            elo_diff[4] = 999
+        # elo_diff[6] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[1].id].points
+        #                    ) -
+        #                   (user_dictionary[self.draft_pool[2].id].points + user_dictionary[self.draft_pool[3].id].points
+        #                   ))
+        #
+        # if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[5]] == 'DPS' )
+        #         or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' )):
+        #     elo_diff[6] = 999
 
-        elo_diff[5] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[2].id].points) -
-                          (user_dictionary[self.draft_pool[3].id].points + user_dictionary[self.draft_pool[1].id].points
-                           + user_dictionary[self.draft_pool[5].id].points))
-
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and self.players[
-            self.draft_pool[2]] == 'DPS')
-                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' and
-                    self.players[self.draft_pool[5]] == 'DPS')):
-            elo_diff[5] = 999
-
-        elo_diff[6] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[5].id].points
-                           + user_dictionary[self.draft_pool[2].id].points) -
-                          (user_dictionary[self.draft_pool[3].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[1].id].points))
-
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[5]] == 'DPS' and self.players[
-            self.draft_pool[2]] == 'DPS')
-                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and
-                    self.players[self.draft_pool[1]] == 'DPS')):
-            elo_diff[6] = 999
-
-        elo_diff[7] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[3].id].points
-                           + user_dictionary[self.draft_pool[4].id].points) -
-                          (user_dictionary[self.draft_pool[1].id].points + user_dictionary[self.draft_pool[2].id].points
-                           + user_dictionary[self.draft_pool[5].id].points))
-
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[3]] == 'DPS' and self.players[
-            self.draft_pool[4]] == 'DPS')
-                or (self.players[self.draft_pool[1]] == 'DPS' and self.players[self.draft_pool[2]] == 'DPS' and
-                    self.players[self.draft_pool[5]] == 'DPS')):
-            elo_diff[7] = 999
-
-        elo_diff[8] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[5].id].points) -
-                          (user_dictionary[self.draft_pool[3].id].points + user_dictionary[self.draft_pool[1].id].points
-                           + user_dictionary[self.draft_pool[2].id].points))
-
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and self.players[
-            self.draft_pool[5]] == 'DPS')
-                or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' and
-                    self.players[self.draft_pool[2]] == 'DPS')):
-            elo_diff[8] = 999
-
-        elo_diff[9] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[3].id].points
-                           + user_dictionary[self.draft_pool[5].id].points) -
-                          (user_dictionary[self.draft_pool[1].id].points + user_dictionary[self.draft_pool[4].id].points
-                           + user_dictionary[self.draft_pool[2].id].points))
-
-        if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[3]] == 'DPS' and self.players[
-            self.draft_pool[5]] == 'DPS')
-                or (self.players[self.draft_pool[1]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and
-                    self.players[self.draft_pool[2]] == 'DPS')):
-            elo_diff[9] = 999
+        # elo_diff[7] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[3].id].points
+        #                    + user_dictionary[self.draft_pool[4].id].points) -
+        #                   (user_dictionary[self.draft_pool[1].id].points + user_dictionary[self.draft_pool[2].id].points
+        #                    + user_dictionary[self.draft_pool[5].id].points))
+        #
+        # if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[3]] == 'DPS' and self.players[
+        #     self.draft_pool[4]] == 'DPS')
+        #         or (self.players[self.draft_pool[1]] == 'DPS' and self.players[self.draft_pool[2]] == 'DPS' and
+        #             self.players[self.draft_pool[5]] == 'DPS')):
+        #     elo_diff[7] = 999
+        #
+        # elo_diff[8] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[4].id].points
+        #                    + user_dictionary[self.draft_pool[5].id].points) -
+        #                   (user_dictionary[self.draft_pool[3].id].points + user_dictionary[self.draft_pool[1].id].points
+        #                    + user_dictionary[self.draft_pool[2].id].points))
+        #
+        # if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and self.players[
+        #     self.draft_pool[5]] == 'DPS')
+        #         or (self.players[self.draft_pool[3]] == 'DPS' and self.players[self.draft_pool[1]] == 'DPS' and
+        #             self.players[self.draft_pool[2]] == 'DPS')):
+        #     elo_diff[8] = 999
+        #
+        # elo_diff[9] = abs((user_dictionary[self.draft_pool[0].id].points + user_dictionary[self.draft_pool[3].id].points
+        #                    + user_dictionary[self.draft_pool[5].id].points) -
+        #                   (user_dictionary[self.draft_pool[1].id].points + user_dictionary[self.draft_pool[4].id].points
+        #                    + user_dictionary[self.draft_pool[2].id].points))
+        #
+        # if ((self.players[self.draft_pool[0]] == 'DPS' and self.players[self.draft_pool[3]] == 'DPS' and self.players[
+        #     self.draft_pool[5]] == 'DPS')
+        #         or (self.players[self.draft_pool[1]] == 'DPS' and self.players[self.draft_pool[4]] == 'DPS' and
+        #             self.players[self.draft_pool[2]] == 'DPS')):
+        #     elo_diff[9] = 999
 
         optimal_teams = []
 
         min = 999
-        for i in range(10):
+        for i in range(3):
             if elo_diff[i] < min:
                 min = elo_diff[i]
                 optimal_teams.clear()
@@ -319,44 +305,44 @@ class RatedMatch:
         team_pairing_index = optimal_teams[random.randint(0, len(optimal_teams) - 1)]
 
         if team_pairing_index == 0:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[1], self.draft_pool[2]])
-            self.team2.extend([self.draft_pool[3], self.draft_pool[4], self.draft_pool[5]])
+            self.team1.extend([self.draft_pool[0], self.draft_pool[1]])
+            self.team2.extend([self.draft_pool[2], self.draft_pool[3]])
 
         if team_pairing_index == 1:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[1], self.draft_pool[3]])
-            self.team2.extend([self.draft_pool[2], self.draft_pool[4], self.draft_pool[5]])
+            self.team1.extend([self.draft_pool[0], self.draft_pool[2]])
+            self.team2.extend([self.draft_pool[1], self.draft_pool[3]])
 
         if team_pairing_index == 2:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[1], self.draft_pool[4]])
-            self.team2.extend([self.draft_pool[3], self.draft_pool[2], self.draft_pool[5]])
-
-        if team_pairing_index == 3:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[1], self.draft_pool[5]])
-            self.team2.extend([self.draft_pool[3], self.draft_pool[4], self.draft_pool[2]])
-
-        if team_pairing_index == 4:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[3], self.draft_pool[2]])
-            self.team2.extend([self.draft_pool[1], self.draft_pool[4], self.draft_pool[5]])
-
-        if team_pairing_index == 5:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[4], self.draft_pool[2]])
-            self.team2.extend([self.draft_pool[3], self.draft_pool[1], self.draft_pool[5]])
-
-        if team_pairing_index == 6:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[5], self.draft_pool[2]])
-            self.team2.extend([self.draft_pool[3], self.draft_pool[4], self.draft_pool[1]])
-
-        if team_pairing_index == 7:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[3], self.draft_pool[4]])
-            self.team2.extend([self.draft_pool[1], self.draft_pool[2], self.draft_pool[5]])
-
-        if team_pairing_index == 8:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[4], self.draft_pool[5]])
-            self.team2.extend([self.draft_pool[3], self.draft_pool[1], self.draft_pool[2]])
-
-        if team_pairing_index == 9:
-            self.team1.extend([self.draft_pool[0], self.draft_pool[3], self.draft_pool[5]])
-            self.team2.extend([self.draft_pool[1], self.draft_pool[4], self.draft_pool[2]])
+            self.team1.extend([self.draft_pool[0], self.draft_pool[3]])
+            self.team2.extend([self.draft_pool[1], self.draft_pool[2]])
+        #
+        # if team_pairing_index == 3:
+        #     self.team1.extend([self.draft_pool[0], self.draft_pool[1], self.draft_pool[5]])
+        #     self.team2.extend([self.draft_pool[3], self.draft_pool[4], self.draft_pool[2]])
+        #
+        # if team_pairing_index == 4:
+        #     self.team1.extend([self.draft_pool[0], self.draft_pool[3], self.draft_pool[2]])
+        #     self.team2.extend([self.draft_pool[1], self.draft_pool[4], self.draft_pool[5]])
+        #
+        # if team_pairing_index == 5:
+        #     self.team1.extend([self.draft_pool[0], self.draft_pool[4], self.draft_pool[2]])
+        #     self.team2.extend([self.draft_pool[3], self.draft_pool[1], self.draft_pool[5]])
+        #
+        # if team_pairing_index == 6:
+        #     self.team1.extend([self.draft_pool[0], self.draft_pool[5], self.draft_pool[2]])
+        #     self.team2.extend([self.draft_pool[3], self.draft_pool[4], self.draft_pool[1]])
+        #
+        # if team_pairing_index == 7:
+        #     self.team1.extend([self.draft_pool[0], self.draft_pool[3], self.draft_pool[4]])
+        #     self.team2.extend([self.draft_pool[1], self.draft_pool[2], self.draft_pool[5]])
+        #
+        # if team_pairing_index == 8:
+        #     self.team1.extend([self.draft_pool[0], self.draft_pool[4], self.draft_pool[5]])
+        #     self.team2.extend([self.draft_pool[3], self.draft_pool[1], self.draft_pool[2]])
+        #
+        # if team_pairing_index == 9:
+        #     self.team1.extend([self.draft_pool[0], self.draft_pool[3], self.draft_pool[5]])
+        #     self.team2.extend([self.draft_pool[1], self.draft_pool[4], self.draft_pool[2]])
 
         for player in self.draft_pool:
             user_dictionary[player.id].in_match = True  # sets inmatch to true for each player in the game
@@ -372,7 +358,7 @@ class RatedMatch:
         self.team1.remove(self.captain1)
         user_dictionary[self.captain1.id].is_captain1 = True
         self.team1_ordered.append(self.team1[0])
-        self.team1_ordered.append(self.team1[1])
+
 
         max = user_dictionary[self.team2[0].id].points
         self.captain2 = self.team2[0]
@@ -384,7 +370,7 @@ class RatedMatch:
         self.team2.remove(self.captain2)
         user_dictionary[self.captain2.id].is_captain2 = True
         self.team2_ordered.append(self.team2[0])
-        self.team2_ordered.append(self.team2[1])
+
         self.team1 = self.team1_ordered
         self.team2 = self.team2_ordered
 
@@ -465,10 +451,10 @@ def createMatchEmbed(id):
 
     team1 = f"{match_dictionary[id].team1[0].name} - {match_dictionary[id].players[match_dictionary[id].team1[0]]}" \
             f"\n{match_dictionary[id].team1[1].name} - {match_dictionary[id].players[match_dictionary[id].team1[1]]}" \
-            f"\n{match_dictionary[id].team1[2].name} - {match_dictionary[id].players[match_dictionary[id].team1[2]]}"
+            # f"\n{match_dictionary[id].team1[2].name} - {match_dictionary[id].players[match_dictionary[id].team1[2]]}"
     team2 = f"{match_dictionary[id].team2[0].name} - {match_dictionary[id].players[match_dictionary[id].team2[0]]}" \
             f"\n{match_dictionary[id].team2[1].name} - {match_dictionary[id].players[match_dictionary[id].team2[1]]}" \
-            f"\n{match_dictionary[id].team2[2].name} - {match_dictionary[id].players[match_dictionary[id].team2[2]]}"
+            # f"\n{match_dictionary[id].team2[2].name} - {match_dictionary[id].players[match_dictionary[id].team2[2]]}"
 
     updated_match_embed.add_field(name='Team 1', value=team1, inline=True)
     updated_match_embed.add_field(name='Team 2', value=team2, inline=True)
@@ -527,12 +513,12 @@ def closeMatch(id, result):
     sum = 0
     for player in match_dictionary[id].team1:
         sum += user_dictionary[player.id].points
-        team1_avg = sum / 3
+        team1_avg = sum / 2
 
     sum = 0
     for player in match_dictionary[id].team2:
         sum += user_dictionary[player.id].points
-        team2_avg = sum / 3
+        team2_avg = sum / 2
 
     if result == 1:  # team 1 wins
         updated_team1_avg, updated_team2_avg = rate_1vs1(team1_avg, team2_avg)
@@ -554,9 +540,7 @@ def closeMatch(id, result):
                 winrate_pickle_info[player.id][match_dictionary[id].team1[1].id] = [0, 0]
             winrate_pickle_info[player.id][match_dictionary[id].team1[1].id][0] += 1
 
-            if match_dictionary[id].team1[2].id not in winrate_pickle_info[player.id]:
-                winrate_pickle_info[player.id][match_dictionary[id].team1[2].id] = [0, 0]
-            winrate_pickle_info[player.id][match_dictionary[id].team1[2].id][0] += 1
+
 
         for player in match_dictionary[id].team2:
             user_dictionary[player.id].losses += 1
@@ -573,9 +557,7 @@ def closeMatch(id, result):
                 winrate_pickle_info[player.id][match_dictionary[id].team2[1].id] = [0, 0]
             winrate_pickle_info[player.id][match_dictionary[id].team2[1].id][1] += 1
 
-            if match_dictionary[id].team2[2].id not in winrate_pickle_info[player.id]:
-                winrate_pickle_info[player.id][match_dictionary[id].team2[2].id] = [0, 0]
-            winrate_pickle_info[player.id][match_dictionary[id].team2[2].id][1] += 1
+
 
 
     elif result == 2:  # team 2 wins
@@ -597,9 +579,7 @@ def closeMatch(id, result):
                 winrate_pickle_info[player.id][match_dictionary[id].team2[1].id] = [0, 0]
             winrate_pickle_info[player.id][match_dictionary[id].team2[1].id][0] += 1
 
-            if match_dictionary[id].team2[2].id not in winrate_pickle_info[player.id]:
-                winrate_pickle_info[player.id][match_dictionary[id].team2[2].id] = [0, 0]
-            winrate_pickle_info[player.id][match_dictionary[id].team2[2].id][0] += 1
+
 
         for player in match_dictionary[id].team1:
             user_dictionary[player.id].losses += 1
@@ -616,9 +596,7 @@ def closeMatch(id, result):
                 winrate_pickle_info[player.id][match_dictionary[id].team1[1].id] = [0, 0]
             winrate_pickle_info[player.id][match_dictionary[id].team1[1].id][1] += 1
 
-            if match_dictionary[id].team1[2].id not in winrate_pickle_info[player.id]:
-                winrate_pickle_info[player.id][match_dictionary[id].team1[2].id] = [0, 0]
-            winrate_pickle_info[player.id][match_dictionary[id].team1[2].id][1] += 1
+
 
     for player in match_dictionary[id].players.keys():
         if (user_dictionary[player.id].wins + user_dictionary[player.id].losses) <= 10:
@@ -908,7 +886,7 @@ async def queue(ctx, action, role=None):
                         updateQueueEmbed()
                         await queue_table_message.edit(embed=queue_embed)
                         role_list = [item[1] for item in queue_channel]
-                        if (len(queue_channel) >= 6) and ((role_list.count('Fill') + role_list.count('DPS')) >= 4):
+                        if (len(queue_channel) >=4) and ((role_list.count('Fill') + role_list.count('DPS')) >= 4):
                             createRatedMatch()
                             updateQueueTableData()
                             updateQueueEmbed()
@@ -919,10 +897,10 @@ async def queue(ctx, action, role=None):
                             await channel.send(
                                 f"A new match has been created.\n {match_dictionary[user_dictionary[ctx.author.id].last_match_id].team1[0].mention} "
                                 f"{match_dictionary[user_dictionary[ctx.author.id].last_match_id].team1[1].mention} "
-                                f"{match_dictionary[user_dictionary[ctx.author.id].last_match_id].team1[2].mention} "
+                              
                                 f"{match_dictionary[user_dictionary[ctx.author.id].last_match_id].team2[0].mention} "
                                 f"{match_dictionary[user_dictionary[ctx.author.id].last_match_id].team2[1].mention} "
-                                f"{match_dictionary[user_dictionary[ctx.author.id].last_match_id].team2[2].mention}"
+                             
                                 f"\n")
                             createMatchEmbed(user_dictionary[ctx.author.id].last_match_id)
                             await channel.send(embed=match_embed)
@@ -1389,95 +1367,95 @@ async def leaderboard(ctx):
             await channel.send(embed=embed)
 
 
-@client.command()
-async def stats(ctx):
-    global character_stats
-
-    if ctx.channel.id != MISC_COMMANDS_ID and ctx.guild != None:
-        return
-
-    for champ in character_stats.keys():
-        if champ != 'stat counter':
-            if character_stats[champ][2] + character_stats[champ][3] > 0:
-                character_stats[champ][4] = character_stats[champ][2] / (
-                            character_stats[champ][2] + character_stats[champ][3])
-
-    channel = await ctx.author.create_dm()
-
-    stats_embed = discord.Embed(
-        title=None,
-        description=None,
-        color=discord.Color.magenta()
-    )
-    character_field = "Bakko\nCroak\nFreya\nJamila\nRaigon\nRook\nRuh Kaan\nShifu\nThorn\nAlysia\nAshka\nDestiny\n" \
-                      "Ezmo\nIva\nJade\nJumong\nShen Rao\nTaya\nVaresh\nBlossom\nLucie\nOldur\nPearl\nPestilus\n" \
-                      "Poloma\nSirius\nUlric\nZander"
-
-    win_percent_field = f"{round(character_stats['bakko'][4] * 100)}\n" \
-                        f"{round(character_stats['croak'][4] * 100)}\n" \
-                        f"{round(character_stats['freya'][4] * 100)}\n" \
-                        f"{round(character_stats['jamila'][4] * 100)}\n" \
-                        f"{round(character_stats['raigon'][4] * 100)}\n" \
-                        f"{round(character_stats['rook'][4] * 100)}\n" \
-                        f"{round(character_stats['ruh kaan'][4] * 100)}\n" \
-                        f"{round(character_stats['shifu'][4] * 100)}\n" \
-                        f"{round(character_stats['thorn'][4] * 100)}\n" \
-                        f"{round(character_stats['alysia'][4] * 100)}\n" \
-                        f"{round(character_stats['ashka'][4] * 100)}\n" \
-                        f"{round(character_stats['destiny'][4] * 100)}\n" \
-                        f"{round(character_stats['ezmo'][4] * 100)}\n" \
-                        f"{round(character_stats['iva'][4] * 100)}\n" \
-                        f"{round(character_stats['jade'][4] * 100)}\n" \
-                        f"{round(character_stats['jumong'][4] * 100)}\n" \
-                        f"{round(character_stats['shen rao'][4] * 100)}\n" \
-                        f"{round(character_stats['taya'][4] * 100)}\n" \
-                        f"{round(character_stats['varesh'][4] * 100)}\n" \
-                        f"{round(character_stats['blossom'][4] * 100)}\n" \
-                        f"{round(character_stats['lucie'][4] * 100)}\n" \
-                        f"{round(character_stats['oldur'][4] * 100)}\n" \
-                        f"{round(character_stats['pearl'][4] * 100)}\n" \
-                        f"{round(character_stats['pestilus'][4] * 100)}\n" \
-                        f"{round(character_stats['poloma'][4] * 100)}\n" \
-                        f"{round(character_stats['sirius'][4] * 100)}\n" \
-                        f"{round(character_stats['ulric'][4] * 100)}\n" \
-                        f"{round(character_stats['zander'][4] * 100)}\n"
-
-    pick_ban_rate_field = f"{round(100 * character_stats['bakko'][1] / character_stats['stat counter'])}/{round(100 * character_stats['bakko'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['croak'][1] / character_stats['stat counter'])}/{round(100 * character_stats['croak'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['freya'][1] / character_stats['stat counter'])}/{round(100 * character_stats['freya'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['jamila'][1] / character_stats['stat counter'])}/{round(100 * character_stats['jamila'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['raigon'][1] / character_stats['stat counter'])}/{round(100 * character_stats['raigon'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['rook'][1] / character_stats['stat counter'])}/{round(100 * character_stats['rook'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['ruh kaan'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ruh kaan'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['shifu'][1] / character_stats['stat counter'])}/{round(100 * character_stats['shifu'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['thorn'][1] / character_stats['stat counter'])}/{round(100 * character_stats['thorn'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['alysia'][1] / character_stats['stat counter'])}/{round(100 * character_stats['alysia'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['ashka'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ashka'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['destiny'][1] / character_stats['stat counter'])}/{round(100 * character_stats['destiny'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['ezmo'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ezmo'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['iva'][1] / character_stats['stat counter'])}/{round(100 * character_stats['iva'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['jade'][1] / character_stats['stat counter'])}/{round(100 * character_stats['jade'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['jumong'][1] / character_stats['stat counter'])}/{round(100 * character_stats['jumong'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['shen rao'][1] / character_stats['stat counter'])}/{round(100 * character_stats['shen rao'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['taya'][1] / character_stats['stat counter'])}/{round(100 * character_stats['taya'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['varesh'][1] / character_stats['stat counter'])}/{round(100 * character_stats['varesh'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['blossom'][1] / character_stats['stat counter'])}/{round(100 * character_stats['blossom'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['lucie'][1] / character_stats['stat counter'])}/{round(100 * character_stats['lucie'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['oldur'][1] / character_stats['stat counter'])}/{round(100 * character_stats['oldur'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['pearl'][1] / character_stats['stat counter'])}/{round(100 * character_stats['pearl'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['pestilus'][1] / character_stats['stat counter'])}/{round(100 * character_stats['pestilus'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['poloma'][1] / character_stats['stat counter'])}/{round(100 * character_stats['poloma'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['sirius'][1] / character_stats['stat counter'])}/{round(100 * character_stats['sirius'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['ulric'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ulric'][0] / character_stats['stat counter'])}\n" \
-                          f"{round(100 * character_stats['zander'][1] / character_stats['stat counter'])}/{round(100 * character_stats['zander'][0] / character_stats['stat counter'])}\n"
-
-    stats_embed.add_field(name='Champions', value=character_field, inline=True)
-    stats_embed.add_field(name='Winrate %', value=win_percent_field, inline=True)
-    stats_embed.add_field(name='Pick/Ban %', value=pick_ban_rate_field, inline=True)
-    stats_embed.set_author(name='Champion Statistics')
-
-    await channel.send(embed=stats_embed)
-
+# @client.command()
+# async def stats(ctx):
+#     global character_stats
+#
+#     if ctx.channel.id != MISC_COMMANDS_ID and ctx.guild != None:
+#         return
+#
+#     for champ in character_stats.keys():
+#         if champ != 'stat counter':
+#             if character_stats[champ][2] + character_stats[champ][3] > 0:
+#                 character_stats[champ][4] = character_stats[champ][2] / (
+#                             character_stats[champ][2] + character_stats[champ][3])
+#
+#     channel = await ctx.author.create_dm()
+#
+#     stats_embed = discord.Embed(
+#         title=None,
+#         description=None,
+#         color=discord.Color.magenta()
+#     )
+#     character_field = "Bakko\nCroak\nFreya\nJamila\nRaigon\nRook\nRuh Kaan\nShifu\nThorn\nAlysia\nAshka\nDestiny\n" \
+#                       "Ezmo\nIva\nJade\nJumong\nShen Rao\nTaya\nVaresh\nBlossom\nLucie\nOldur\nPearl\nPestilus\n" \
+#                       "Poloma\nSirius\nUlric\nZander"
+#
+#     win_percent_field = f"{round(character_stats['bakko'][4] * 100)}\n" \
+#                         f"{round(character_stats['croak'][4] * 100)}\n" \
+#                         f"{round(character_stats['freya'][4] * 100)}\n" \
+#                         f"{round(character_stats['jamila'][4] * 100)}\n" \
+#                         f"{round(character_stats['raigon'][4] * 100)}\n" \
+#                         f"{round(character_stats['rook'][4] * 100)}\n" \
+#                         f"{round(character_stats['ruh kaan'][4] * 100)}\n" \
+#                         f"{round(character_stats['shifu'][4] * 100)}\n" \
+#                         f"{round(character_stats['thorn'][4] * 100)}\n" \
+#                         f"{round(character_stats['alysia'][4] * 100)}\n" \
+#                         f"{round(character_stats['ashka'][4] * 100)}\n" \
+#                         f"{round(character_stats['destiny'][4] * 100)}\n" \
+#                         f"{round(character_stats['ezmo'][4] * 100)}\n" \
+#                         f"{round(character_stats['iva'][4] * 100)}\n" \
+#                         f"{round(character_stats['jade'][4] * 100)}\n" \
+#                         f"{round(character_stats['jumong'][4] * 100)}\n" \
+#                         f"{round(character_stats['shen rao'][4] * 100)}\n" \
+#                         f"{round(character_stats['taya'][4] * 100)}\n" \
+#                         f"{round(character_stats['varesh'][4] * 100)}\n" \
+#                         f"{round(character_stats['blossom'][4] * 100)}\n" \
+#                         f"{round(character_stats['lucie'][4] * 100)}\n" \
+#                         f"{round(character_stats['oldur'][4] * 100)}\n" \
+#                         f"{round(character_stats['pearl'][4] * 100)}\n" \
+#                         f"{round(character_stats['pestilus'][4] * 100)}\n" \
+#                         f"{round(character_stats['poloma'][4] * 100)}\n" \
+#                         f"{round(character_stats['sirius'][4] * 100)}\n" \
+#                         f"{round(character_stats['ulric'][4] * 100)}\n" \
+#                         f"{round(character_stats['zander'][4] * 100)}\n"
+#
+#     pick_ban_rate_field = f"{round(100 * character_stats['bakko'][1] / character_stats['stat counter'])}/{round(100 * character_stats['bakko'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['croak'][1] / character_stats['stat counter'])}/{round(100 * character_stats['croak'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['freya'][1] / character_stats['stat counter'])}/{round(100 * character_stats['freya'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['jamila'][1] / character_stats['stat counter'])}/{round(100 * character_stats['jamila'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['raigon'][1] / character_stats['stat counter'])}/{round(100 * character_stats['raigon'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['rook'][1] / character_stats['stat counter'])}/{round(100 * character_stats['rook'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['ruh kaan'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ruh kaan'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['shifu'][1] / character_stats['stat counter'])}/{round(100 * character_stats['shifu'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['thorn'][1] / character_stats['stat counter'])}/{round(100 * character_stats['thorn'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['alysia'][1] / character_stats['stat counter'])}/{round(100 * character_stats['alysia'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['ashka'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ashka'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['destiny'][1] / character_stats['stat counter'])}/{round(100 * character_stats['destiny'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['ezmo'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ezmo'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['iva'][1] / character_stats['stat counter'])}/{round(100 * character_stats['iva'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['jade'][1] / character_stats['stat counter'])}/{round(100 * character_stats['jade'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['jumong'][1] / character_stats['stat counter'])}/{round(100 * character_stats['jumong'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['shen rao'][1] / character_stats['stat counter'])}/{round(100 * character_stats['shen rao'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['taya'][1] / character_stats['stat counter'])}/{round(100 * character_stats['taya'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['varesh'][1] / character_stats['stat counter'])}/{round(100 * character_stats['varesh'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['blossom'][1] / character_stats['stat counter'])}/{round(100 * character_stats['blossom'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['lucie'][1] / character_stats['stat counter'])}/{round(100 * character_stats['lucie'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['oldur'][1] / character_stats['stat counter'])}/{round(100 * character_stats['oldur'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['pearl'][1] / character_stats['stat counter'])}/{round(100 * character_stats['pearl'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['pestilus'][1] / character_stats['stat counter'])}/{round(100 * character_stats['pestilus'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['poloma'][1] / character_stats['stat counter'])}/{round(100 * character_stats['poloma'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['sirius'][1] / character_stats['stat counter'])}/{round(100 * character_stats['sirius'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['ulric'][1] / character_stats['stat counter'])}/{round(100 * character_stats['ulric'][0] / character_stats['stat counter'])}\n" \
+#                           f"{round(100 * character_stats['zander'][1] / character_stats['stat counter'])}/{round(100 * character_stats['zander'][0] / character_stats['stat counter'])}\n"
+#
+#     stats_embed.add_field(name='Champions', value=character_field, inline=True)
+#     stats_embed.add_field(name='Winrate %', value=win_percent_field, inline=True)
+#     stats_embed.add_field(name='Pick/Ban %', value=pick_ban_rate_field, inline=True)
+#     stats_embed.set_author(name='Champion Statistics')
+#
+#     await channel.send(embed=stats_embed)
+#
 
 @client.command(aliases=['wb'])
 async def weeklyban(ctx, *, champs):
